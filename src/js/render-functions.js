@@ -3,8 +3,9 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
     imageWrapper: document.querySelector('.js-imageWrapper'),
-    loadMore: document.querySelector('.loadMore'),
 };
+
+const lightbox = new SimpleLightbox('.img-card a');
 
 function createMarkup({webformatURL, largeImageURL, tags, likes, views, comments, downloads}) {
     return `<div class="img-card">
@@ -14,12 +15,11 @@ function createMarkup({webformatURL, largeImageURL, tags, likes, views, comments
             <p class="text">Views<span class="wrapper">${views}</span></p>
             <p class="text">Comments<span class="wrapper">${comments}</span></p>
             <p class="text">Downloads<span class="wrapper">${downloads}</span></p></div>
-            </div>`;
+            </div>`
 };
 
 function updateImgList(markup) {
     refs.imageWrapper.insertAdjacentHTML('beforeend', markup);
-    const lightbox = new SimpleLightbox('.img-card a');
     lightbox.refresh();
 };
 
@@ -27,16 +27,47 @@ function clearImageList() {
     refs.imageWrapper.innerHTML = '';
 };
 
-function showLoad() {
-    refs.loadMore.textContent = '';
-    refs.loadMore.classList.remove('hidden');
-    refs.loadMore.classList.add('loader');
-   
-};
+class LoadMoreBtn {
+    static classes = {
+        hidden: 'hidden',
+        loader: 'loader'
+    }
+    constructor({selector, isHidden = false}) {
+        this.button = this.getButton(selector);
+        isHidden && this.hide();
+    }
 
-function hideLoad() {
-    refs.loadMore.classList.add('hidden');
-    refs.loadMore.classList.remove('loader');
-};
+    getButton(selector) {
+        return document.querySelector(selector);
+    }
 
-export { createMarkup, updateImgList, clearImageList, showLoad, hideLoad };
+    hide() {
+        this.button.classList.add(LoadMoreBtn.classes.hidden);
+    }
+
+    show() {
+        this.button.classList.remove(LoadMoreBtn.classes.hidden);
+    }
+
+    disable() {
+        this.button.disabled = true; 
+        this.button.textContent = ''; 
+        this.button.classList.add(LoadMoreBtn.classes.loader);
+    }
+
+    enable() {
+        this.button.disabled = false;
+        this.button.textContent = 'Load more'
+        this.button.classList.remove(LoadMoreBtn.classes.loader);
+    }
+}
+
+function smoothScroll() {
+    const { height: cardHeight } = refs.imageWrapper.firstElementChild.getBoundingClientRect();
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
+}
+
+export { createMarkup, updateImgList, clearImageList,  LoadMoreBtn, smoothScroll};

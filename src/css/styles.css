@@ -1,23 +1,24 @@
 .hidden {
     display: none;
 }
+
 body {
     font-family: sans-serif;
     color: #2E2F42;
 }
 
-.loader {
+.loader:disabled {
+    background-color: white;
     display: block; 
     margin: 0 auto;
-
     width: 48px;
     height: 48px;
-    border: 5px solid darkblue;
-    border-bottom-color: yellow;
+    border: 5px solid yellow;
+    border-bottom-color: darkblue;
     border-radius: 50%;
-    /* display: inline-block; */
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
+    transition: background-color 0ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     @keyframes rotation {
@@ -56,6 +57,7 @@ body {
 .search-input {
     width: 91px;
     height: 40px;
+    font-size: 18px;
     padding: 10px 8px;
     border: none; 
     background-color: #4E75FF;  
@@ -70,6 +72,7 @@ body {
 
 .imgWrapper {
     margin-top: 32px;
+    margin-bottom: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,3 +116,20 @@ img {
     font-weight: normal;
 }
 
+button {
+    display: block;
+    font-size: 18px;
+    width: 125px;
+    height: 40px;
+    margin: 0 auto;
+    padding: 10px 8px;
+    border: none; 
+    background-color: #4E75FF;  
+    color: white;
+    border-radius: 5px;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover, button:focus {
+    background-color: #6C8CFF;
+}
