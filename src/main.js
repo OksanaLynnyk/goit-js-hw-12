@@ -1,4 +1,4 @@
-import PixabayApi, { perPage } from './js/pixabay-api.js'
+import PixabayApi from './js/pixabay-api.js'
 import { createMarkup, updateImgList, clearImageList, LoadMoreBtn, smoothScroll } from './js/render-functions.js';
 
 import iziToast from 'izitoast';
@@ -58,7 +58,7 @@ async function getImagesMarkup() {
         if (hits.length === 0) {
             onError();   
         } 
-        else if (hits.length < perPage || pixabayApi.page * perPage > totalHits) { 
+        else if (hits.length < pixabayApi.perPage || pixabayApi.page > Math.ceil(totalHits / pixabayApi.perPage)) { 
             loadMoreBtn.hide();
             iziToast.warning({
                 position: 'topRight',
